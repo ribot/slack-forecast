@@ -7,7 +7,7 @@ var errorHash = require( './response-error-list' );
 
 
 /**
- * Family Time error constructor
+ * Response error constructor
  * If code is provided, do error lookup by code
  */
 var ResponseError = function ResponseError( code, options ) {
