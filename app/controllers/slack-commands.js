@@ -11,7 +11,7 @@ var router = require( '../lib/router' ),
  * Initialise
  */
 var init = function() {
-  
+
   router.post( '/slack-commands', requestPostSlackCommand );
 
 };
@@ -22,6 +22,14 @@ var init = function() {
  * Handles incoming Slack commands
  */
 var requestPostSlackCommand = function requestPostSlackCommand( request, reponse ) {
+
+  // Usage
+  // forecast.getInfo( {
+  //   startDate: moment().day( 'Monday' ),
+  //   endDate: moment().day( 'Saturday' )
+  // } )
+  //   .tap( console.log );
+
   response.status( 200 ).send();
 };
 
