@@ -1,0 +1,26 @@
+{
+  "name": "forecast-insights",
+  "version": "0.0.0",
+  "description": "Simple API to receive Forecast insights.",
+  "main": "app/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ribot",
+  "contributors": [
+    {
+      "name": "Stefan Pearson",
+      "email": "stefan@ribot.co.uk"
+    }
+  ],
+  "license": "Apache-2.0",
+  "dependencies": {
+    "bluebird": "^3.4.0",
+    "dotenv": "^2.0.0",
+    "forecast-api": "0.0.1",
+    "lodash": "^4.13.0",
+    "moment": "^2.13.0",
+    "request-promise": "^3.0.0",
+    "winston": "^2.2.0"
+  }
+}
