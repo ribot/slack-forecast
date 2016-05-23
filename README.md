@@ -1,3 +1,3 @@
 # Forecast Insights
 
-Simple API to receive Forecast insights.
+Simple web service to receive Forecast insights through a Slack command.

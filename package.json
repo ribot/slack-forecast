@@ -1,7 +1,7 @@
 {
   "name": "forecast-insights",
   "version": "0.0.0",
-  "description": "Simple API to receive Forecast insights.",
+  "description": "Simple web service to receive Forecast insights through a Slack command.",
   "main": "app/app.js",
   "scripts": {
     "start": "node app/app.js",
