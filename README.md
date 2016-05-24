@@ -2,6 +2,15 @@
 
 Simple web service to receive [Forecast](http://forecastapp.com) utilisation insights through a Slack command.
 
+Retrieves the following information:
+
+| Start date                  | Sunday, May 22nd 2016                      |
+|-----------------------------|--------------------------------------------|
+| End date                    | Sunday, May 29th 2016                      |
+| Billable vs potential hours | 300 / 500                                  |
+| Utilisation                 | 60%                                        |
+| Projects                    | Google Playbook, M.Gemi and Harris + Hoole |
+
 ## Caveats
 
 * Forecast's REST API is private at the moment, so a user's account ID and access token is required to make the requests. You'll have to grab this from your browser's web inspector and change it every 60 days. Yuck.
