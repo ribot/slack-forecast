@@ -4,6 +4,8 @@ Simple web service to receive [Forecast](http://forecastapp.com) utilisation ins
 
 Retrieves the following information:
 
+| Key                         | Value                                      |
+|-----------------------------|--------------------------------------------|
 | Start date                  | Sunday, May 22nd 2016                      |
 | End date                    | Sunday, May 29th 2016                      |
 | Billable vs potential hours | 300 / 500                                  |
