@@ -2,7 +2,7 @@
   "name": "forecast-insights",
   "version": "0.0.0",
   "description": "Simple web service to receive Forecast insights through a Slack command.",
-  "main": "app/app.js",
+  "main": "./app/app.js",
   "scripts": {
     "start": "node ./app/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
