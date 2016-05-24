@@ -29,7 +29,7 @@ var removeTrailingSlash = function removeTrailingSlash ( request, response, next
  * Respond with a 404 ResponseError
  */
 var routeNotFound = function routeNotFound( request, response, next ) {
-  throw new ResponseError( 'notFound' );
+  return Promise.reject( new ResponseError( 'notFound' ) );
 };
 
 
