@@ -58,3 +58,4 @@ Ensure you create a `.env` file in the route (or set the env vars explicity), yo
 * Ignore weekends
 * Weekly/monthly breakdowns
 * Make RESTful endpoints for additional use-cases
+* Figure out a nice way of authentication, while the Forecast API remains private
