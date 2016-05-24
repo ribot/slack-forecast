@@ -57,3 +57,4 @@ Ensure you create a `.env` file in the route (or set the env vars explicity, you
 * Tests 😁
 * Ignore weekends
 * Weekly/monthly breakdowns
+* Make RESTful endpoints for additional use-cases
