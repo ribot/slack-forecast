@@ -50,7 +50,7 @@ Within Slack:
 npm install
 ```
 
-Ensure you create a `.env` file in the route (or set the env vars explicity, you can refer to the `.env-example` file for the required properties.
+Ensure you create a `.env` file in the route (or set the env vars explicity), you can refer to the `.env-example` file for the required properties.
 
 ## To do
 
