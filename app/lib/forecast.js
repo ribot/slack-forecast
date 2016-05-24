@@ -46,6 +46,10 @@ var filterPeople = function( people ) {
     .filter( function( person ) {
       return _.includes( person.teams, 'Production' );
     } )
+    // Reject freelancers
+    .reject( function( person ) {
+      return _.includes( person.teams, 'Freelance' );
+    } )
     // Reject archived team members
     .reject( function( person ) {
       return person.archived;
@@ -160,7 +164,7 @@ var getProjectList = function( results ) {
 
 
 /**
- * Get capacity and project list
+ * Get utilization and project list
  * TODO: Omit weekends from date range before calculating totalHours
  */
 var getInfo = function getInfo( options ) {
@@ -169,7 +173,7 @@ var getInfo = function getInfo( options ) {
       var numberOfDays = moment.range( options.startDate, options.endDate ).diff( 'days' ),
           totalHours = results.people.length * 7 * numberOfDays,
           billableHours = getScheduledHours( results, options ),
-          capacity = Math.round( billableHours / totalHours * 100 ) + '%',
+          utilization = Math.round( billableHours / totalHours * 100 ) + '%',
           projects = getProjectList( results );
 
       return {
@@ -178,7 +182,7 @@ var getInfo = function getInfo( options ) {
         numberOfDays: numberOfDays,
         totalHours: totalHours,
         billableHours: billableHours,
-        capacity: capacity,
+        utilization: utilization,
         projects: projects
       };
     } );

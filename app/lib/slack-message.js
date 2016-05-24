@@ -8,10 +8,10 @@ var _ = require( 'lodash' ),
 
 
 /**
- * Get colour status dependant on capacity percentage
+ * Get colour status dependant on utilization percentage
  */
-var getColorStatus = function getColorStatus( capacity ) {
-  var percentage = parseInt( capacity, 10 );
+var getColorStatus = function getColorStatus( utilization ) {
+  var percentage = parseInt( utilization, 10 );
 
   if ( percentage < 20 ) {
     // Black
@@ -37,43 +37,51 @@ var getColorStatus = function getColorStatus( capacity ) {
 /**
  * Slack Message constructor
  */
-var SlackMessage = function SlackMessage( data ) {
-  return {
-    text: '',
-    attachments: [
-      {
-        fallback: data.capacity + ' between ' + data.dateStart + ' and ' + data.dateEnd,
-        color: getColorStatus( data.capacity ),
-        fields: [
-          {
-            title: 'Start date',
-            value: data.startDate.format( 'dddd, MMMM Do YYYY' ),
-            short: true
-          },
-          {
-            title: 'End date',
-            value: data.endDate.format( 'dddd, MMMM Do YYYY' ),
-            short: true
-          },
-          {
-            title: 'Billable vs potential hours',
-            value: data.billableHours + ' / ' + data.totalHours,
-            short: true
-          },
-          {
-            title: 'Capacity',
-            value: data.capacity,
-            short: true
-          },
-          {
-            title: 'Projects',
-            value: toSentence( data.projects ),
-            short: false
-          }
-        ]
-      }
-    ]
+var SlackMessage = function SlackMessage( data, options ) {
+  var message = {},
+      startDateFormatted = data.startDate.format( 'dddd, MMMM Do YYYY' ),
+      endDateFormatted = data.endDate.format( 'dddd, MMMM Do YYYY' );
+
+  if ( options.public ) {
+    message.response_type = 'in_channel';
   }
+
+  message.text = '';
+  message.attachments = [
+    {
+      fallback: data.utilization + ' between ' + startDateFormatted + ' and ' + endDateFormatted,
+      color: getColorStatus( data.utilization ),
+      fields: [
+        {
+          title: 'Start date',
+          value: startDateFormatted,
+          short: true
+        },
+        {
+          title: 'End date',
+          value: endDateFormatted,
+          short: true
+        },
+        {
+          title: 'Billable vs potential hours',
+          value: data.billableHours + ' / ' + data.totalHours,
+          short: true
+        },
+        {
+          title: 'Utilisation',
+          value: data.utilization,
+          short: true
+        },
+        {
+          title: 'Projects',
+          value: toSentence( data.projects ),
+          short: false
+        }
+      ]
+    }
+  ];
+
+  return message;
 };
 
 

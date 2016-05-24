@@ -57,6 +57,11 @@ var transformCommand = function commandToOptions( text ) {
           validationErrors.unit = [ 'Unit must be weeks or months' ];
         }
       }
+      if ( index === 2 ) {
+        if ( value != 'share' ) {
+          validationErrors.share = [ 'Did you mean \'share\'?' ];
+        }
+      }
 
       if ( !_.isEmpty( validationErrors ) ) {
         throw new ValidationError( validationErrors );
@@ -67,7 +72,8 @@ var transformCommand = function commandToOptions( text ) {
 
   return {
     value: args[ 0 ],
-    unit: args[ 1 ]
+    unit: args[ 1 ],
+    public: args.length == 3 && args[ 2 ] == 'share'
   };
 };
 
@@ -82,7 +88,8 @@ var commandToOptions = function( command ) {
   return {
     groupBy: command.value,
     startDate: startDate,
-    endDate: endDate
+    endDate: endDate,
+    public: command.public
   };
 };
 
@@ -94,16 +101,18 @@ var commandToOptions = function( command ) {
 var requestGetSlackCommand = function requestGetSlackCommand( request, response ) {
   return Promise.try( function() {
     var command = transformCommand( request.query.text );
-    return commandToOptions( command );
+    return commandToOptions( command )
   } )
+    .bind( {} )
     .then( function( options ) {
+      this.options = options;
       return forecast.getInfo( options )
         .catch( function( error ) {
           throw new ResponseError( 'forecastError' );
         } );
     } )
     .then( function( data ) {
-      var payload = new SlackMessage( data );
+      var payload = new SlackMessage( data, this.options );
       return response.status( 200 ).send( payload );
     } );
 };
