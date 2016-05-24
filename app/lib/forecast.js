@@ -11,6 +11,7 @@ var environment = require( './environment' ),
     logger = require( './logger' );
 
 
+// Create the Forecast instance
 var forecast = Promise.promisifyAll( new Forecast( {
   accountId: environment.forecast.accountId,
   authorization: 'Bearer ' + environment.forecast.accessToken
@@ -18,10 +19,21 @@ var forecast = Promise.promisifyAll( new Forecast( {
 
 
 /**
+ * Tap results from Forecast
+ */
+var resultCheck = function( result ) {
+  if ( result === undefined ) {
+    throw new Error( 'Couldn\'t retrieve data from Forecast' );
+  }
+};
+
+
+/**
  * Get production team people
  */
 var getPeople = function getPeople() {
-  return forecast.peoplePromise();
+  return forecast.peoplePromise()
+    .tap( resultCheck );
 };
 
 
@@ -47,7 +59,8 @@ var filterPeople = function( people ) {
  * Get external projects
  */
 var getProjects = function getProjects() {
-  return forecast.projectsPromise();
+  return forecast.projectsPromise()
+    .tap( resultCheck );
 };
 
 
@@ -73,7 +86,8 @@ var filterProjects = function filterProjects( projects ) {
  * Get assignments for this week
  */
 var getAssignments = function getAssignments( options ) {
-  return forecast.assignmentsPromise( options );
+  return forecast.assignmentsPromise( options )
+    .tap( resultCheck );
 };
 
 
@@ -117,6 +131,7 @@ var get = function get( options ) {
 
 /**
  * Get scheduled hours using results and date range options
+ * TODO: Omit weekends
  */
 var getScheduledHours = function getScheduledHours( results, options ) {
   return _.reduce( results.assignments, function( memo, assignment ) {
@@ -146,18 +161,21 @@ var getProjectList = function( results ) {
 
 /**
  * Get capacity and project list
+ * TODO: Omit weekends from date range before calculating totalHours
  */
 var getInfo = function getInfo( options ) {
   return get( options )
     .then( function( results ) {
-      var dayRange = moment.range( options.startDate, options.endDate ).diff( 'days' ),
-          totalHours = results.people.length * 7 * moment.range( options.startDate, options.endDate ).diff( 'days' ),
+      var numberOfDays = moment.range( options.startDate, options.endDate ).diff( 'days' ),
+          totalHours = results.people.length * 7 * numberOfDays,
           billableHours = getScheduledHours( results, options ),
-          projects = getProjectList( results ),
-          capacity = Math.round( billableHours / totalHours * 100 ) + '%';
+          capacity = Math.round( billableHours / totalHours * 100 ) + '%',
+          projects = getProjectList( results );
 
       return {
-        numberOfDays: dayRange,
+        startDate: options.startDate,
+        endDate: options.endDate,
+        numberOfDays: numberOfDays,
         totalHours: totalHours,
         billableHours: billableHours,
         capacity: capacity,

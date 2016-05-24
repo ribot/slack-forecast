@@ -23,6 +23,9 @@ var environment = {
   forecast: {
     accountId: process.env.FORECAST_ACCOUNT_ID,
     accessToken: process.env.FORECAST_ACCESS_TOKEN
+  },
+  slack: {
+    commandToken: process.env.SLACK_COMMAND_TOKEN
   }
 };
 

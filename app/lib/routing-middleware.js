@@ -1,12 +1,13 @@
 // External dependencies
-//
+var Promise = require( 'bluebird' );
 
 
 // Dependencies
 var logger = require( './logger' ),
     environment = require( './environment' ),
     ResponseError = require( './response-error' ),
-    ValidationError = require( './validation-error' );
+    ValidationError = require( './validation-error' ),
+    wrapResponse = require( './response-wrapper' );
 
 
 /**
@@ -28,15 +29,26 @@ var removeTrailingSlash = function removeTrailingSlash ( request, response, next
  * Respond with a 404 ResponseError
  */
 var routeNotFound = function routeNotFound( request, response, next ) {
-  var responseError = new ResponseError( 'notFound' );
+  throw new ResponseError( 'notFound' );
+};
 
-  response.status( responseError.statusCode ).send( responseError );
 
+/**
+ * Basic check to see if the query token matches
+ */
+var authorizeSlack = function authorizeSlack( request, response, next ) {
+
+  if ( request.query.token !== environment.slack.commandToken ) {
+    throw new ResponseError( 'unauthorized' );
+  }
+
+  return Promise.resolve( next() );
 };
 
 
 // Exports
 module.exports = {
   removeTrailingSlash: removeTrailingSlash,
-  routeNotFound: routeNotFound
+  routeNotFound: wrapResponse( routeNotFound ),
+  authorizeSlack: wrapResponse( authorizeSlack )
 };

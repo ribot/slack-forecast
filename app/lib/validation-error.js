@@ -19,5 +19,6 @@ var ValidationError = function ValidationError( errors ) {
 
 ValidationError.prototype = Object.create( Error.prototype );
 
+
 // Exports
 module.exports = ValidationError;

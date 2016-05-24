@@ -29,6 +29,9 @@ var init = function init() {
   // Setup controllers
   require( './controllers' );
 
+  // Setup jobs
+  require( './jobs' );
+
   // Log the environment
   logger.debug( JSON.stringify( environment ) );
 

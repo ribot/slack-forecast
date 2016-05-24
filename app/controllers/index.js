@@ -1,1 +1,1 @@
-require( './slack-commands' );
+require( './slack' );
